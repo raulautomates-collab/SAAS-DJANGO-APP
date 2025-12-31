@@ -15,7 +15,7 @@ def home_page_view(request,*args,**kwargs):
     context={
         'my_title':page_title,
         'page_visit_count':queryset.count(),
-        'total_count':queryset.count()*100/queryset.count(),
+        
     }
     PageVisit.objects.create()
     return render(request,html_template,context)
