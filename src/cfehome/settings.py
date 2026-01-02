@@ -25,11 +25,11 @@ print(BASE_DIR)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY =config("DJANGO_SECRET_KEY")
-print(SECRET_KEY)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DJANGO_DEBUG')
-print(DEBUG)
+
 #using railway.com to host and deploy our projct
 ALLOWED_HOSTS = ['.railway.app']
 if DEBUG:
@@ -95,9 +95,9 @@ DATABASES = {
 }
 
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = str(config('NEON_DATABASE_URL'))
 
-print(DATABASE_URL)
+
 CONN_MAX_AGE = config('CONN_MAX_AGE', cast=int, default=30)
 CONN_HEALTH_CHECKS = True
 
@@ -116,7 +116,7 @@ if DATABASE_URL is not None:
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
+   {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
