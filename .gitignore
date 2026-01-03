@@ -4,6 +4,11 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+#ignore vendor static files
+src/staticfiles/vendors
+#ignore localcdn
+local-cdn/
+
 # C extensions
 *.so
 
