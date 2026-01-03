@@ -97,7 +97,7 @@ DATABASES = {
 }
 
 
-DATABASE_URL = config('NEON_DATABASE_URL',default=None)
+DATABASE_URL = str(config('NEON_DATABASE_URL',default=None))
 
 
 CONN_MAX_AGE = config('CONN_MAX_AGE', cast=int, default=30)
@@ -108,7 +108,7 @@ if DATABASE_URL is not None:
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.config(
-            default=str(DATABASE_URL), 
+            default=DATABASE_URL, 
             conn_health_checks=CONN_HEALTH_CHECKS,
             conn_max_age=CONN_MAX_AGE,
         )
