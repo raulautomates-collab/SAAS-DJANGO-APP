@@ -97,7 +97,7 @@ DATABASES = {
 }
 
 
-DATABASE_URL = str(config('NEON_DATABASE_URL'))
+DATABASE_URL = str(config('NEON_DATABASE_URL',default=None))
 
 
 CONN_MAX_AGE = config('CONN_MAX_AGE', cast=int, default=30)
