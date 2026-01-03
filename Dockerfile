@@ -51,7 +51,8 @@ ENV DJANGO_DEBUG=${DJANGO_DEBUG}
 # database isn't available during build
 # run any other commands that do not need the database
 # such as:
- RUN python collectstatic --noinput   
+    #collect staticfiles when building staticfiles
+ RUN python  manage.py collectstatic --noinput   
  RUN python manage.py vendor_pull
  #whitenoise for static files
   

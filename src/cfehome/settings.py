@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 from decouple import config
-import dj_database_url
+from dj_database_url import _parse_value
 
 # Buil:d paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -96,7 +96,7 @@ DATABASES = {
     }
 }
 
-
+# Add these at the top of your settings.py
 DATABASE_URL = str(config('NEON_DATABASE_URL',default=None))
 
 
@@ -114,7 +114,9 @@ if DATABASE_URL is not None:
         )
     }
 
-# Password validation
+
+
+#passsword validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
