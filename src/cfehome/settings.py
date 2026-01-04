@@ -11,11 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-import os
-
-from decouple import config
+from dotenv import load_dotenv
+from django.conf import settings
 import dj_database_url
-
+import os
 # Buil:d paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(BASE_DIR)
@@ -25,12 +24,12 @@ print(BASE_DIR)
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret! 
-SECRET_KEY =config("DJANGO_SECRET_KEY")
+SECRET_KEY =os.environ.get("DJANGO_SECRET_KEY")
 print(BASE_DIR)
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DJANGO_DEBUG')
+DEBUG = os.environ.get('DJANGO_DEBUG')
 
 #using railway.com to host and deploy our projct
 ALLOWED_HOSTS = ['.railway.app']
@@ -63,6 +62,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    #WHITENOISE SECURITY MIDDLEWARE
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'cfehome.urls'
@@ -98,20 +101,19 @@ DATABASES = {
 }
 
 
-DATABASE_URL = str(config('NEON_DATABASE_URL',default=None))
+DATABASE_URL =os.environ.get('NEON_DATABASE_URL')
 
 
-CONN_MAX_AGE = config('CONN_MAX_AGE', cast=int, default=30)
 CONN_HEALTH_CHECKS = True
 
 
 if DATABASE_URL is not None:
-    
+    import dj_database_url
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL, 
             conn_health_checks=CONN_HEALTH_CHECKS,
-            conn_max_age=CONN_MAX_AGE,
+            
         )
     }
 
@@ -170,3 +172,10 @@ STATIC_ROOT=BASE_DIR.parent /"local-cdn"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#WHIENOISE CACHING SUPPORT
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
