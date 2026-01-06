@@ -12,19 +12,35 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
-from django.conf import settings
+
+
 import dj_database_url
 import os
+
 # Buil:d paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(BASE_DIR)
+
+#EMAIL SENDING CONFIGURTION
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') 
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'False') 
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  # Fixed variable name
+
+# Email admins for sending emails
+ADMINS = [('James', 'lonelyoctopus758@gmail.com')]
+MANAGERS = ADMINS
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret! 
-SECRET_KEY =os.environ.get("DJANGO_SECRET_KEY")
+SECRET_KEY =os.environ.get('DJANGO_SECRET_KEY')
 print(BASE_DIR)
 
 
@@ -51,7 +67,9 @@ INSTALLED_APPS = [
 
     #internal apps
     'Visits',
-    'commando'
+    'commando',
+    'GOOGLEAUTH'
+    
 ]
 
 MIDDLEWARE = [
@@ -134,6 +152,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+
 
 
 # Internationalization
